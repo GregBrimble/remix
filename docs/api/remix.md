@@ -380,7 +380,7 @@ export async function loader() {
   await getUserPreferences();
 }
 
-export async function action() {
+export async function action({ request }) {
   await updatePreferences(await request.formData());
   return redirect("/prefs");
 }
@@ -423,7 +423,7 @@ function useSessionTimeout() {
   const transition = useTransition();
 
   useEffect(() => {
-    const id = setTimeout(() => {
+    const timer = setTimeout(() => {
       submit(null, { method: "post", action: "/logout" });
     }, 5 * 60_000);
     return () => clearTimeout(timer);
@@ -632,12 +632,7 @@ You can know the state of the fetcher with `fetcher.state`, it will be one of:
 
 - **idle** - nothing is being fetched
 - **submitting** - A form has been submitted. If the method is GET then the route loader is being called, if POST, PUT, PATCH, or DELETE then the route action is being called.
-- **loading** - The loaders for the routes are being reloaded after an action submission 
-
-
-
-
-
+- **loading** - The loaders for the routes are being reloaded after an action submission
 
 .
 
